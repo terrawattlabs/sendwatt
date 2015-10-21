@@ -1,0 +1,16 @@
+
+<div class="msgs-parent">
+	<div>
+	<li ng-repeat="unit in unitList"><a ng-click="select($index)">{{unit.get('name')}}</a> <span class="badge">{{ unit.unreadLength }}</span></a></li>
+</div>
+
+<div class="chat-holder">
+	<div class="chatBox" scroll-glue>
+		<ol ng-repeat="message in messages">
+			<p class="chat-bubble" ng-class="message.get('type') == 'incoming' ? 'incoming' : 'outgoing'">{{message.createdAt}}:<br>{{message.get('body')}}</p>
+		</ol>
+	</div>
+	<input type="text" ng-model="newMessage" />
+	<button ng-click="sendMessage()">Send</button>
+</div>
+</div>

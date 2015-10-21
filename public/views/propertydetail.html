@@ -1,0 +1,39 @@
+Name: {{property.get('name')}} <br>
+Address: {{property.get('address')}} <br>
+Units: {{property.get('units')}} <br>
+Notes: {{property.get('notes')}}<br>
+
+<button ng-click="showForm()" class="btn btn-primary">New Unit</button>
+<div ng-show="formOpen" class="half-div">
+	<input type="text" class="form-control" placeholder="Tenant Name" ng-model="unitName">
+	<input type="text" class="form-control" placeholder="Address" ng-model="unitAddress">
+	<input type="text" class="form-control" placeholder="Phone Number" ng-model="unitPhone">
+	<input type="text" class="form-control" placeholder="Notes" ng-model="unitNotes">
+	<button class="btn btn-primary" ng-click="newUnit()">Add New Unit</button>
+</div>
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<td>Name</td>
+			<td>Address</td>
+			<td>Phone Number</td>
+			<td>New Reading</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="unit in unitList">
+			<td>{{unit.get('name')}}</td>
+			<td>{{unit.get('address')}}</td>
+			<td>{{unit.get('phone')}}</td>
+			<td><input type="text" ng-model="reading_entry[$index]">
+				<select ng-model="unitofmeasure[$index]">
+					<option value="elec">Electric (kwh)</option>
+					<option value="water">Water (gallons)</option>
+					<option value="gas">Natural Gas (ccf)</option>
+				</select>
+				<button class="btn btn-primary btn-sm" ng-click="findUnit($index, unit.id)">Save</button>
+			</td>
+			<td><button class="btn btn-sm btn-default" ng-click="goToPage('/unitdetail/' + unit.id)">Detail</button></td>
+		</tr>
+	</tbody>
+</table>

@@ -1,0 +1,14 @@
+{
+  "global": {
+    "parseVersion": "latest"
+  },
+  "applications": {
+    "SendWatt": {
+      "applicationId": "6gfmZb7lsEmwxcmTWKVWVxb9Sb10gJhDIbjiUcJc",
+      "masterKey": "shge0rxzKmDRXo9NtRg4h8YkxvBFU9q2gLWYR6am"
+    },
+    "_default": {
+      "link": "SendWatt"
+    }
+  }
+}

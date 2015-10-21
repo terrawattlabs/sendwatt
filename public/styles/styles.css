@@ -1,0 +1,66 @@
+.half-div {
+	width: 50%;
+}
+
+.dashboard-holder {
+	display: flex;
+	flex-direction: column;
+	padding: 1em;
+}
+
+.dash-row {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	min-height: 10em;
+}
+
+.dash-item {
+	background-color: #ecf0f1;
+	border-radius: .5em;
+	margin: .5em;
+	padding: .5em;
+}
+
+.dash-half {
+	width: 45%;
+	min-width: 200px;
+}
+
+.dash-full {
+	width: 100%;
+}
+
+.msgs-parent {
+	display: flex;
+	justify-content: space-around;
+}
+
+.chat-holder {
+	width: 50%;
+	padding: 1em;
+}
+
+.chatbox {
+    width: 100%;
+    height: 15em;
+    overflow: scroll;
+    background-color: #ecf0f1;
+
+}
+
+.chat-bubble {
+	border-color: black;
+	border-radius: .25em;
+	padding: .25em
+}
+
+.incoming {
+	background-color: #2ecc71;
+}
+
+.outgoing {
+	background-color: #34495e;
+	color: #ecf0f1;
+}

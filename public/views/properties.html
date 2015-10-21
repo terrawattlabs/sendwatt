@@ -1,0 +1,25 @@
+<button ng-click="showForm()">New Property</button>
+<div ng-show="formOpen" class="half-div">
+	<input type="text" class="form-control" placeholder="Name" ng-model="propertyName">
+	<input type="text" class="form-control" placeholder="Address" ng-model="propertyAddress">
+	<input type="text" class="form-control" placeholder="Number of Units" ng-model="propertyUnits">
+	<input type="text" class="form-control" placeholder="Notes" ng-model="propertyNotes">
+	<button class="btn btn-primary" ng-click="newProperty()">Add New Property</button>
+</div>
+
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<td>Name</td>
+			<td>Address</td>
+			<td>Units</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="property in propertyList" ng-click="goToPage('/propertydetail/' + property.id)">
+			<td>{{property.get('name')}}</td>
+			<td>{{property.get('address')}}</td>
+			<td>{{property.get('units')}}</td>
+		</tr>
+	</tbody>
+</table>
