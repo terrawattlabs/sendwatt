@@ -83,15 +83,18 @@ $scope.unitList;
    			var selectID = $scope.selectedUnit.id;
    			console.log(selectID);
 
-   			var Messages = Parse.Object.extend("Messages");
+   		var Messages = Parse.Object.extend("Messages");
 			var query = new Parse.Query(Messages);
 			query.equalTo("unit", $scope.selectedUnit.id);
-			query.limit(20);
+			//query.limit(20);
+         query.ascending("createdAt");
 			query.find({
 			  success: function(messages) {
 			    $scope.messages = messages;
 			    markAsRead(messages);
 			    processDates(messages);
+             console.log("-------------------------------------------------------------------------------------")
+             console.log($scope.messages);
 			    $scope.$apply();
 			  },
 			  error: function(object, error) {
@@ -168,12 +171,12 @@ $scope.unitList;
 
    	function addToList (i,d,v) {
    		if (v == 'unread') {
-   			console.log(i);
+   			//console.log(i);
    		$scope.unitList[i].unreadLength = d;
    		} if (v == 'time') {
-   			console.log('time ' + i);
-   			console.log($scope.unitList[i]);
-   			$scope.unitList[i].friendlyTime = d;
+   			//console.log('time ' + i);
+   			//console.log($scope.unitList[i]);
+   			//$scope.unitList[i].friendlyTime = d;
    		};
    		
    		$scope.$apply();
