@@ -64,3 +64,13 @@
 	background-color: #34495e;
 	color: #ecf0f1;
 }
+
+.dual {
+	display: flex;
+	justify-content: center;
+}
+
+.dual-child {
+	width: 40%;
+	margin: 1em;
+}

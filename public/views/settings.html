@@ -1,0 +1,31 @@
+<div>
+	<p>Message Frequency</p>
+	<div class="btn-group" dropdown style="">
+    <button type="button" class="btn btn-primary btn-lg dropdown-toggle" ng-disabled="disabled">
+     {{selectedFreq.get('frontTitle')}}<span class="caret" style="padding: 0em;"></span>
+    </button>
+    <span class="dropdown-arrow dropdown-arrow-inverse"></span>
+    <ul class="dropdown-menu dropdown-inverse project-dropdown" role="menu">
+      <li ng-repeat="freq in frequencies"><a ng-click="changeFreq(freq)" class="dropdown-toggle">{{freq.get('frontTitle')}}</a></li>
+    </ul>
+  </div>
+  {{selectedFreq.get('description')}}
+</div>
+
+<div>
+	{{msgText.length}} / 160
+	<textarea ng-model="msgText" ng-keypress="notesKeyPress($event)" id="txtInput"></textarea>
+
+	<div class="btn-group" dropdown style="">
+    <button type="button" class="btn btn-primary btn-lg dropdown-toggle" ng-disabled="disabled">
+     Insert Merge Field<span class="caret" style="padding: 0em;"></span>
+    </button>
+    <span class="dropdown-arrow dropdown-arrow-inverse"></span>
+    <ul class="dropdown-menu dropdown-inverse project-dropdown" role="menu">
+      <li ng-repeat="field in fields"><a ng-click="addField(field)" class="dropdown-toggle">{{field.title}}</a></li>
+    </ul>
+  </div>
+</div>
+
+<button ng-click="saveSettings()">Save Settings</button>
+
