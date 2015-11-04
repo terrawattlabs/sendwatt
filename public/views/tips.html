@@ -1,0 +1,53 @@
+<button ng-click="showForm()">New Tip</button>
+<div ng-show="formOpen" class="half-div">
+	<input type="text" class="form-control" placeholder="Title" ng-model="tipTitle">
+	<select ng-model="tipDirection">
+		<option value="positive">Positive</option>
+		<option value="negative">Negative</option>
+	</select>
+	<select ng-model="tipUtility">
+		<option value="all">All</option>
+		<option value="elec">Electricity</option>
+		<option value="gas">Gas</option>
+		<option value="water">Water</option>
+	</select>
+	<input type="text" class="form-control" placeholder="Tip" ng-model="tipBody">
+	{{tipBody.length}} <br>
+	<button class="btn btn-primary" ng-click="newTip()">Add New Tip</button>
+</div>
+
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<td>Title</td>
+			<td>Case</td>
+			<td>Tip</td>
+			
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="tip in tipList">
+			<td>{{tip.get('title')}}</td>
+			<td>{{tip.get('direction')}}</td>
+			<td>{{tip.get('body')}}</td>
+			<td><button class="btn btn-primary btn-sm" ng-click="showTip($index)">Details</button></td>
+		</tr>
+	</tbody>
+</table>
+
+<div ng-show="tipDetail" class="half-div">
+	<input type="text" class="form-control" ng-model="selectedTip.title">
+	<select ng-model="selectedTip.direction">
+		<option value="positive">Positive</option>
+		<option value="negative">Negative</option>
+	</select>
+	<select ng-model="selectedTip.utility">
+		<option value="all">All</option>
+		<option value="elec">Electricity</option>
+		<option value="gas">Gas</option>
+		<option value="water">Water</option>
+	</select>
+	<input type="text" class="form-control" ng-model="selectedTip.body">
+	<label for="spanish">Spanish:</label><input type="text" id="spanish" class="form-control" ng-model="selectedTip.spanish">
+	<button class="btn btn-primary" ng-click="saveTip()">Save</button>
+</div>

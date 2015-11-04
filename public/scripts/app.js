@@ -39,6 +39,10 @@ angular
         templateUrl: 'views/settings.html',
         controller: 'SettingsCtrl'
       })
+      .when('/tips', {
+        templateUrl: 'views/tips.html',
+        controller: 'TipsCtrl'
+      })
       .when('/home', {
         templateUrl: 'views/home.html',
         controller: 'HomeCtrl'
