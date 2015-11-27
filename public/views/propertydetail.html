@@ -1,39 +1,30 @@
+<p><a ng-click="goToPage('/properties')">All Properties</a></p>
+
 Name: {{property.get('name')}} <br>
 Address: {{property.get('address')}} <br>
-Units: {{property.get('units')}} <br>
+Units: {{totalSum}}<br>
 Notes: {{property.get('notes')}}<br>
 
-<button ng-click="showForm()" class="btn btn-primary">New Unit</button>
+<button ng-click="showForm()" class="btn btn-primary">New Building</button>
 <div ng-show="formOpen" class="half-div">
-	<input type="text" class="form-control" placeholder="Tenant Name" ng-model="unitName">
-	<input type="text" class="form-control" placeholder="Address" ng-model="unitAddress">
-	<input type="text" class="form-control" placeholder="Phone Number" ng-model="unitPhone">
-	<input type="text" class="form-control" placeholder="Notes" ng-model="unitNotes">
-	<button class="btn btn-primary" ng-click="newUnit()">Add New Unit</button>
+	<input type="text" class="form-control" placeholder="Building Number" ng-model="buildingNumber">
+	<input type="text" class="form-control" placeholder="Notes" ng-model="buildingNotes">
+	<button class="btn btn-primary" ng-click="newUnit()">Add New Building</button>
 </div>
 <table class="table table-hover">
 	<thead>
 		<tr>
-			<td>Name</td>
-			<td>Address</td>
-			<td>Phone Number</td>
-			<td>New Reading</td>
+			<td>Building Number</td>
+			<td>Number of Units</td>
+			<td>Notes</td>
+			<td></td>
 		</tr>
 	</thead>
 	<tbody>
-		<tr ng-repeat="unit in unitList">
-			<td>{{unit.get('name')}}</td>
-			<td>{{unit.get('address')}}</td>
-			<td>{{unit.get('phone')}}</td>
-			<td><input type="text" ng-model="reading_entry[$index]">
-				<select ng-model="unitofmeasure[$index]">
-					<option value="elec">Electric (kwh)</option>
-					<option value="water">Water (gallons)</option>
-					<option value="gas">Natural Gas (ccf)</option>
-				</select>
-				<button class="btn btn-primary btn-sm" ng-click="findUnit($index, unit.id)">Save</button>
-			</td>
-			<td><button class="btn btn-sm btn-default" ng-click="goToPage('/unitdetail/' + unit.id)">Detail</button></td>
-		</tr>
+		<tr ng-repeat="building in buildingList">
+			<td>{{building.get('Number')}}</td>
+			<td>{{building.numUnits}}</td>
+			<td>{{building.get('Notes')}}</td>
+			<td><button class="btn btn-default btn-sm" ng-click="goToPage('/buildingdetail/' + building.id)">Details</button></td>
 	</tbody>
 </table>

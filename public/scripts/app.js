@@ -11,7 +11,8 @@ angular
     'angular-growl',
     'ui.select',
     'chart.js',
-    'luegg.directives'
+    'luegg.directives',
+    'internationalPhoneNumber'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -30,6 +31,10 @@ angular
       .when('/unitdetail/:objID', {
         templateUrl: 'views/unitdetail.html',
         controller: 'UnitDetailCtrl'
+      })
+      .when('/buildingdetail/:objID', {
+        templateUrl: 'views/buildingdetail.html',
+        controller: 'BuildingsCtrl'
       })
       .when('/messages', {
         templateUrl: 'views/messages.html',

@@ -1,0 +1,23 @@
+{
+  "name": "international-phone-number",
+  "main": "releases/international-phone-number.js",
+  "description": "AngularJS directive for intl-tel-input jQuery plugin",
+  "author": "Marek Pietrucha (http://enginearch.com)",
+  "license": "MIT",
+  "dependencies": {
+    "angular": ">1.3.0",
+    "intl-tel-input": "~5.1.0"
+  },
+  "homepage": "https://github.com/mareczek/international-phone-number",
+  "version": "0.0.15",
+  "_release": "0.0.15",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.0.15",
+    "commit": "afe9925c902734231e8933a1cef83cb5430286f3"
+  },
+  "_source": "git://github.com/mareczek/international-phone-number.git",
+  "_target": "~0.0.15",
+  "_originalSource": "international-phone-number",
+  "_direct": true
+}

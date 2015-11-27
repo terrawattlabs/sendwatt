@@ -19,7 +19,7 @@
 		<tr ng-repeat="property in propertyList" ng-click="goToPage('/propertydetail/' + property.id)">
 			<td>{{property.get('name')}}</td>
 			<td>{{property.get('address')}}</td>
-			<td>{{property.get('units')}}</td>
+			<td>{{property.numUnits}}</td>
 		</tr>
 	</tbody>
 </table>

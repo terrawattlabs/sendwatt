@@ -43,6 +43,7 @@ sendwattApp.controller('PropertiesCtrl',
 			query.find({
 			  success: function(results) {
 			    $scope.propertyList = results;
+			    calculateUnits($scope.propertyList);
 			    $scope.$apply();
 			  },
 			  error: function(error) {
@@ -54,6 +55,32 @@ sendwattApp.controller('PropertiesCtrl',
 
    		$scope.goToPage = function (path) {
    			$location.path(path);
+   		};
+
+
+		function calculateUnits(r) {
+   			for (var i = 0; i <= r.length - 1; i++) {
+   				var d = r[i];
+   				pushUnits(d, i);
+   			};
+   		};
+
+   		$scope.totalSum = 0;
+
+   		function pushUnits (id, s) {
+   			var Items = Parse.Object.extend("Units");
+			var query = new Parse.Query(Items);
+			query.equalTo("property", id);
+			query.find({
+			  success: function(results) {
+			    $scope.propertyList[s].numUnits = results.length;
+			    //$scope.totalSum = $scope.totalSum + results.length;
+			    $scope.$apply();
+			  },
+			  error: function(error) {
+			    console.log("Error: " + error.code + " " + error.message);
+			  }
+			});
    		};
 
    	}]);
