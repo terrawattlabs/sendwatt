@@ -96,8 +96,8 @@ Parse.Cloud.define("postMsg", function (request, response) {
 
 Parse.Cloud.define("outgoingSMS", function (request, response) {
       // Require and initialize the Twilio module with your credentials
-    var accountSid = 'AC73f7249b29a458ccfb05e1ca469023aa';
-    var authToken = 'da9c29a9a9ceda42b101242c8b5bfdb9';
+    var accountSid = 'AC0b1f4860568ff4949a1d004724ac2c7d';
+    var authToken = '8244d596dd0b71d6a8dfa05f208129bc';
     var client = require('twilio')(accountSid, authToken);
 
     var msgBody = request.params.message;
@@ -107,7 +107,7 @@ Parse.Cloud.define("outgoingSMS", function (request, response) {
            // Send an SMS message
             client.sendSms({
                 to: msgTo, 
-                from: '+17204093065', 
+                from: '+7204109010', 
                 body: msgBody
               }, function (err, responseData) { 
                 if (err) {
