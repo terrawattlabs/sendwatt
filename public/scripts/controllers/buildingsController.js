@@ -128,7 +128,7 @@ sendwattApp.controller('BuildingsCtrl',
 		var query = new Parse.Query(Units);
 		query.get(ID, {
 		  success: function(unit) {
-		  	console.log(unit);
+		  	//console.log(unit);
 		    $scope.newReading(i,ID,unit);
 		  },
 		  error: function(object, error) {
@@ -146,7 +146,7 @@ sendwattApp.controller('BuildingsCtrl',
 		// from meter read
 		meter_read = parseFloat($scope.reading_entry[i]);
 		location = unitObj;
-		console.log(meter_read);
+		//console.log(meter_read);
 		
 		// pull previous reading
 
@@ -182,6 +182,7 @@ sendwattApp.controller('BuildingsCtrl',
 	};
 
 	function pushWithPrevious (reading, i) {
+			console.log('another function');
 			var MeterRead;
 
 			if ($scope.unitofmeasure[i] == "elec") {
@@ -194,9 +195,14 @@ sendwattApp.controller('BuildingsCtrl',
 			var meter_read_object = new MeterRead();
 
 			//from previous
-			prev_read = reading.get('reading');
-			prev_createdAt = reading.createdAt;
-			prev_per_day = reading.get('per_day_consumption');
+			if (reading !== undefined) {
+				prev_read = reading.get('reading');
+				prev_createdAt = reading.createdAt;
+				prev_per_day = reading.get('per_day_consumption');
+
+				console.log('inside the previous function');
+			};
+			
 
 
 
