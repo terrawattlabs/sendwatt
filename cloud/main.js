@@ -78,20 +78,30 @@ app.post('/api/incomingsms', function (request, response) {
 	});
 
 
+    
+});
 
 
- //    // // add some instructions
-	// twiml.message('Thanks dude');
+app.get('/api/incoming/call', function (request, response) {
+    // Create a TwiML response generator object
+    var twiml = new twilio.TwimlResponse();
+    // add some instructions
 
+    // twiml.dial(function (res) {
+    //   res.number('+18447363928', {
+    //     sendDigits: "1" })
+    //   });
+
+    twiml.dial('+18447363928');
  
- //    // // Render the TwiML XML document
- //    response.type('text/xml');
- //    response.send(twiml.toString());
-  
-  //
+    // Render the TwiML XML document
+    response.type('text/xml');
+    response.send(twiml.toString());
 
     
 });
+
+app.listen();
 
 
 Parse.Cloud.define("postMsg", function (request, response) {
@@ -152,11 +162,40 @@ Parse.Cloud.define("outgoingSMS", function (request, response) {
             );
 }); //end outgoing texts
 
+var tipArray = [];
 
 Parse.Cloud.job("sendWaterSMS", function(request, status) {
    
   var y = "water";
- // start cloud code 
+// find the tips before proceeding
+var Tips = Parse.Object.extend("Tips");
+
+var utilityQuery = new Parse.Query(Tips);
+    utilityQuery.equalTo("utility", y);
+
+var allQuery = new Parse.Query(Tips);
+    allQuery.equalTo("utility", "all");
+
+var queryNeg = new Parse.Query.or(utilityQuery, allQuery);
+    queryNeg.equalTo("direction", "negative");
+
+var queryPos = new Parse.Query.or(utilityQuery, allQuery);
+    queryPos.equalTo("direction", "positive");
+
+queryNeg.find().then(function (negtips) {
+  console.log(negtips.length);
+  var n = getRandomInt(0,negtips.length);
+  var tip = negtips[n];
+  tipArray.push(tip);
+
+})
+.then(function() {
+  queryPos.find().then(function (postips) {
+    console.log(postips.length);
+      var n = getRandomInt(0,postips.length);
+      var tip = postips[n];
+      tipArray.push(tip);
+  }).then(function (){
     var Units = Parse.Object.extend("Units");
     var query = new Parse.Query("Units");
     query.equalTo("getmessages", true);
@@ -172,7 +211,12 @@ Parse.Cloud.job("sendWaterSMS", function(request, status) {
           response.error("location failed");
         }
       });
+  });
+
 });
+
+    
+}); //end cloud code function
  
 
   // for-loop to build each text, run sendText() to actually send off the msg
@@ -183,92 +227,14 @@ Parse.Cloud.job("sendWaterSMS", function(request, status) {
       var sendTo = u[i].get('phone');
       var name = u[i].get('name');
 
-      findPosTips(sendTo, name, u[i], y);
+      getReadingSend(sendTo, name, u[i], y);
 
     };
   };
 
-  var tipArray = [];
-
-  function findPosTips (sendTo, nm, u, y){
-
-    var Tips = Parse.Object.extend("Tips");
-
-    var utilityQuery = new Parse.Query(Tips);
-    utilityQuery.equalTo("utility", y);
-
-    var allQuery = new Parse.Query(Tips);
-    allQuery.equalTo("utility", "all");
-
-   
-
-    var query = new Parse.Query.or(utilityQuery, allQuery);
-    query.equalTo("direction", "positive");
-    query.find({
-      success: function(results) {
-         var max = results.length - 1;
-        var n = getRandomInt(0, max);
-
-        tipArray.push(results[n]);
-        findNegTips(sendTo, nm, u, y);
-      },
-      error: function(error) {
-        alert("Error: " + error.code + " " + error.message);
-      }
-    });
- 
-  };
-
-  function findNegTips (sendTo, nm, u, y){
-
-    var Tips = Parse.Object.extend("Tips");
-
-    var utilityQuery = new Parse.Query(Tips);
-    utilityQuery.equalTo("utility", y);
-
-    var allQuery = new Parse.Query(Tips);
-    allQuery.equalTo("utility", "all");
-
-   
-
-    var query = new Parse.Query.or(utilityQuery, allQuery);
-    query.equalTo("direction", "negative");
-    query.find({
-      success: function(results) {
-        var max = results.length - 1;
-        var n = getRandomInt(0,max);
-
-        tipArray.push(results[n]);
-        getReadingSend(sendTo, nm, u, y); 
-
-        Parse.Cloud.run('sendEmail', {
-            "recipient": "jpdean333@gmail.com",
-            "sender": "info@customerdiscovery.ninja",
-            "subject": "Some information" + new Date(),
-            "bodyHTML": "Good Job =  " + tipArray[0].get('body') + "<br> bad job " + tipArray[1].get('body')
-
-        }, {
-          success: function(result) {
-            // console.log(result);
-        
-        },
-          error: function(error) {
-            // console.log(error);
-          }
-        });
-
-      },
-      error: function(error) {
-        alert("Error: " + error.code + " " + error.message);
-      }
-    });
-  };
- 
-
-
 
  function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
+  return Math.floor(Math.random() * (max - min) + min);
 };
  
   function getReadingSend(sendTo, name, u, y) {
@@ -306,6 +272,7 @@ Parse.Cloud.job("sendWaterSMS", function(request, status) {
             var body = compileMessage(name, daily, monthly, percentage, percHelper, customMsg, spanish);
 
             sendMessage(sendTo, body);
+            //postMessage(body, "incoming", u);
       
           },
           error: function(object, error) {
@@ -351,15 +318,15 @@ function getHelper(m, sp){
 function getTip (m,sp) {
   var tip;
    if (m >= 1 && sp == true) {
-    tip = tipArray[1].get('spanish');
+    tip = tipArray[0].get('spanish');
   } if (m >= 1 && sp == false) {
-    tip = tipArray[1].get('body');
+    tip = tipArray[0].get('body');
   };
 
   if (m < 1 && sp == true) {
-    tip = tipArray[0].get('spanish');
+    tip = tipArray[1].get('spanish');
   } if (m <1 && sp == false) {
-    tip = tipArray[0].get('body');
+    tip = tipArray[1].get('body');
   };
 
   return tip;
@@ -428,6 +395,5 @@ function sendMessage(to, body) {
 
 
 
-app.listen();
 
 
