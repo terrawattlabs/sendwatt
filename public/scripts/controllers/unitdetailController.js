@@ -9,11 +9,14 @@ sendwattApp.controller('UnitDetailCtrl',
 
    		$scope.unit = [];
 
+   		var selUnit;
+
    		var Units = Parse.Object.extend("Units");
 		var query = new Parse.Query(Units);
 		query.get(unitID, {
 		  success: function(unit) {
 		  	console.log(unit);
+		  	selUnit = unit;
 		    $scope.unit.name = unit.get('name');
 		    $scope.unit.address = unit.get('address');
 		    $scope.unit.city = unit.get('city');
@@ -21,6 +24,8 @@ sendwattApp.controller('UnitDetailCtrl',
 		    $scope.unit.zip = unit.get('zip');
 		    $scope.unit.phone = unit.get('phone');
 		    $scope.unit.notes = unit.get('notes');
+		    $scope.unit.spanish = unit.get('spanish');
+		    $scope.unit.getmsg = unit.get('getmessages');
 		    getReadings(unit);
 		    $scope.$apply();
 		  },
@@ -46,7 +51,7 @@ sendwattApp.controller('UnitDetailCtrl',
 			$scope.processedReadings = [];
 			kwhCost = 0.10;
 
-			var MeterRead = Parse.Object.extend("Readings_Elec");
+			var MeterRead = Parse.Object.extend("Readings_Water");
 			var query = new Parse.Query(MeterRead);
 			query.equalTo("unit", loc);
 			query.limit(10);
@@ -255,7 +260,18 @@ function highLowOfArray(actual, func){
 		
 	};
 
+$scope.changeLang = function (){
+	var unit = selUnit;
 
+	unit.set("spanish", $scope.unit.spanish);
+	unit.set("getmessages", $scope.unit.getmsg);
+
+	unit.save(null, {
+	  success: function(u) {
+	    u.save();
+	  }
+	});
+};
 
 
 

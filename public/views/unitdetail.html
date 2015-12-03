@@ -1,14 +1,21 @@
+
 <div class="dashboard-holder">
 	<div class="dash-row">
 		<div class="dash-item dash-half">
-			<div class="input-group home-input-group">
-				<span class="input-group-addon"><span class="glyphicon glyphicon-flash"></span></span>
+			<div class="input-group">
+				<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
 				<input type="text" class="form-control" placeholder="Meter Reading" ng-model="unit.name"/>
 			</div>
-			<div class="input-group home-input-group">
-				<span class="input-group-addon"><span class="glyphicon glyphicon-flash"></span></span>
+			<div class="input-group">
+				<span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
 				<input type="text" class="form-control" placeholder="Meter Reading" ng-model="unit.phone"/>
 			</div>
+			<input type="checkbox" ng-model="unit.spanish" id="spanish" ng-change="changeLang()"/>
+			<label for="spanish">Prefer Spanish</label>
+			<br>
+			<input type="checkbox" ng-model="unit.getmsg" id="getmsg" ng-change="changeLang()"/>
+			<label for="getmsg">Gets Messages</label>
+			<br>
 			{{unit.address}}<br>
 			{{unit.city}}, {{unit.state}} {{unit.zip}}
 		</div>
@@ -57,8 +64,8 @@
 				</tbody>
 			</table>
 			<div class="dash-item dash-full">
-				<p style="font-size:.8em;">kWh per day</p>
-				<canvas id="bar" class="chart chart-bar" data="data" labels="labels" options="options"></canvas>
+				<!--<p style="font-size:.8em;">kWh per day</p>
+				<canvas id="bar" class="chart chart-bar" data="data" labels="labels" options="options"></canvas>-->
 			</div>
 		</div>
 	</div>
