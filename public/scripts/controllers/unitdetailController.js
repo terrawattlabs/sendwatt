@@ -26,6 +26,8 @@ sendwattApp.controller('UnitDetailCtrl',
 		    $scope.unit.notes = unit.get('notes');
 		    $scope.unit.spanish = unit.get('spanish');
 		    $scope.unit.getmsg = unit.get('getmessages');
+		    $scope.unit.smartphone = unit.get('smartphone');
+
 		    getReadings(unit);
 		    $scope.$apply();
 		  },
@@ -265,6 +267,7 @@ $scope.changeLang = function (){
 
 	unit.set("spanish", $scope.unit.spanish);
 	unit.set("getmessages", $scope.unit.getmsg);
+	unit.set("smartphone", $scope.unit.smartphone);
 
 	unit.save(null, {
 	  success: function(u) {

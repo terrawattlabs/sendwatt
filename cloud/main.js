@@ -112,7 +112,7 @@ Parse.Cloud.define("postMsg", function (request, response) {
         var d = request.params.d;
 
 
-      		var Messages = Parse.Object.extend("Messages");
+      var Messages = Parse.Object.extend("Messages");
 			var message = new Messages();
 
 			message.set("body", b);
@@ -144,12 +144,24 @@ Parse.Cloud.define("outgoingSMS", function (request, response) {
     var msgBody = request.params.message;
     var msgTo = request.params.sendTo;
 
+    if (msgBody.length >160) {
 
-           // Send an SMS message
+      var index = 160;  // Gets the first index where a space occours
+      var one = msgBody.substr(0, index); // Gets the first part
+      var two = msgBody.substr(index + 1);  // Gets the text part
+      finalSendSMS(msgTo, two);
+      finalSendSMS(msgTo, one);
+      
+    } else {
+      finalSendSMS(msgTo, msgBody);
+    }
+
+function finalSendSMS (n,m){
+  // Send an SMS message
             client.sendSms({
-                to: msgTo, 
+                to: n, 
                 from: '+17204109010',
-                body: msgBody
+                body: m
               }, function (err, responseData) { 
                 if (err) {
                   console.log(err);
@@ -160,7 +172,14 @@ Parse.Cloud.define("outgoingSMS", function (request, response) {
                 }
               }
             );
+  
+};
+
+
+           
 }); //end outgoing texts
+
+
 
 var tipArray = [];
 
@@ -271,8 +290,9 @@ queryNeg.find().then(function (negtips) {
             var customMsg = getTip(multiple, spanish);
             var body = compileMessage(name, daily, monthly, percentage, percHelper, customMsg, spanish);
 
-            sendMessage(sendTo, body);
-            //postMessage(body, "incoming", u);
+              sendMessage(sendTo, body);
+
+            postMessage(body, "outgoing", u.id);
       
           },
           error: function(object, error) {
