@@ -60,7 +60,7 @@ $scope.unitList;
 
 			    $scope.selectedUnit = $scope.unitList[0];
 			    checkUnread(results);
-			    startTimer();
+			    //startTimer();
 			    $scope.$apply();
 			  },
 			  error: function(error) {
@@ -93,8 +93,7 @@ $scope.unitList;
 			    $scope.messages = messages;
 			    markAsRead(messages);
 			    processDates(messages);
-             console.log("-------------------------------------------------------------------------------------")
-             console.log($scope.messages);
+             processUrl(messages);
 			    $scope.$apply();
 			  },
 			  error: function(object, error) {
@@ -104,14 +103,14 @@ $scope.unitList;
 			});
    		};
 
-   		function startTimer () {
-   			setTimeout(function() {
-   				$scope.pullMessages();
-   				checkUnread($scope.unitList);
-   				console.log('Did the timer');
-   				startTimer();
-   			}, 10000);
-   		};
+   		// function startTimer () {
+   		// 	setTimeout(function() {
+   		// 		$scope.pullMessages();
+   		// 		checkUnread($scope.unitList);
+   		// 		console.log('Did the timer');
+   		// 		startTimer();
+   		// 	}, 10000);
+   		// };
 
    		function markAsRead (msgs) {
    			for (var i = msgs.length - 1; i >= 0; i--) {
@@ -174,10 +173,12 @@ $scope.unitList;
    			//console.log(i);
    		$scope.unitList[i].unreadLength = d;
    		} if (v == 'time') {
-   			//console.log('time ' + i);
+   			console.log('time - ' + i);
    			//console.log($scope.unitList[i]);
-   			//$scope.unitList[i].friendlyTime = d;
-   		};
+   			$scope.messages[i].friendlyTime = d;
+   		} if (v == 'url') {
+            $scope.messages[i].url = d;
+         };
    		
    		$scope.$apply();
    	};
@@ -185,12 +186,27 @@ $scope.unitList;
    	function processDates(msgs) {
    		for (var i = 0; i <= msgs.length - 1; i++) {
    			console.log(i);
-   			var friendly = moment(msgs[i].createdAt).format('MMMM Do YYYY, h:mm:ss a');
+   			var friendly = moment(msgs[i].createdAt).fromNow();
    			addToList(i,friendly, 'time');
    		};
    		
 
    	};
+
+      function processUrl (msgs) {
+         for (var i = 0; i <= msgs.length - 1; i++) {
+            var url;
+
+            if (msgs[i].get('type') == 'incoming') {
+               var letter = $scope.selectedUnit.get('name').charAt(0);
+
+               url = 'http://placehold.it/50/55C1E7/fff&text=' + letter;
+            } if (msgs[i].get('type') == 'outgoing') {
+               url = 'http://placehold.it/50/FA6F57/fff&text=ME'
+            };
+            addToList(i,url, 'url');
+         };
+      };
 
 
    	}]);

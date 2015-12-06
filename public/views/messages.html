@@ -1,18 +1,45 @@
 
-<div class="msgs-parent">
-	<div>
-	<li ng-repeat="unit in unitList"><a ng-click="select($index)">{{unit.get('name')}}</a><span class="badge">{{ unit.unreadLength }}</span></li>
-</div>
 
-<div class="chat-holder">
-{{selectedUnit.get('name')}}
-	<div class="chatBox" scroll-glue>
-		<ol ng-repeat="message in messages">
-			<p class="chat-bubble" ng-class="message.get('type') == 'incoming' ? 'incoming' : 'outgoing'">{{message.createdAt}}:<br>{{message.get('body')}}</p>
-		</ol>
-	</div>
-	<input type="text" ng-model="newMessage" />
-	<button ng-click="sendMessage()">Send</button>
-	{{newMessage.length}}
-</div>
+
+<div class="container">
+
+    <div class="row">
+    	<div class="col-md-4">
+    		<li ng-repeat="unit in unitList"><a ng-click="select($index)">{{unit.get('name')}}</a><span class="badge">{{ unit.unreadLength }}</span></li>
+    	</div>
+    
+        <div class="col-md-5">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-comment"></span> {{selectedUnit.get('name')}}
+                </div>
+                <div class="panel-body">
+                    <ul class="chat">
+                        <li ng-repeat="message in messages" ng-class="message.get('type') == 'incoming' ? 'left' : 'right'" class="clearfix"><span class="chat-img" ng-class="message.get('type') == 'incoming' ? 'pull-left' : 'pull-right'">
+                            <img ng-src="{{message.url}}" alt="User Avatar" class="img-circle" />
+                        </span>
+                            <div class="chat-body clearfix">
+                                <div class="header">
+                                    <small ng-class="message.get('type') == 'incoming' ? 'pull-right' : ''" class="text-muted"><span class="glyphicon glyphicon-time"></span>{{message.friendlyTime}}</small>
+                                    <strong ng-class="message.get('type') == 'incoming' ? 'pull-left' : 'pull-right'" class="primary-font">{{message.get('type') == 'incoming' ? unit.get("name") : 'Me' }}</strong>
+                                </div>
+                                <p>
+                                    {{message.get('body')}}
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                    <div class="input-group">
+                        <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." ng-model="newMessage"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-warning btn-sm" id="btn-chat" ng-click="sendMessage()">
+                                Send</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
