@@ -13,7 +13,7 @@
                 <div class="panel-heading">
                     <span class="glyphicon glyphicon-comment"></span> {{selectedUnit.get('name')}}
                 </div>
-                <div class="panel-body">
+                <div class="panel-body" scroll-glue>
                     <ul class="chat">
                         <li ng-repeat="message in messages" ng-class="message.get('type') == 'incoming' ? 'left' : 'right'" class="clearfix"><span class="chat-img" ng-class="message.get('type') == 'incoming' ? 'pull-left' : 'pull-right'">
                             <img ng-src="{{message.url}}" alt="User Avatar" class="img-circle" />
@@ -21,7 +21,7 @@
                             <div class="chat-body clearfix">
                                 <div class="header">
                                     <small ng-class="message.get('type') == 'incoming' ? 'pull-right' : ''" class="text-muted"><span class="glyphicon glyphicon-time"></span>{{message.friendlyTime}}</small>
-                                    <strong ng-class="message.get('type') == 'incoming' ? 'pull-left' : 'pull-right'" class="primary-font">{{message.get('type') == 'incoming' ? unit.get("name") : 'Me' }}</strong>
+                                    <strong ng-class="message.get('type') == 'incoming' ? 'pull-left' : 'pull-right'" class="primary-font">{{message.get('type') == 'incoming' ? selectedUnit.get("name") : 'Me' }}</strong>
                                 </div>
                                 <p>
                                     {{message.get('body')}}
