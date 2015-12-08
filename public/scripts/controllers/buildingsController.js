@@ -71,6 +71,7 @@ sendwattApp.controller('BuildingsCtrl',
 			unit.set("notes", $scope.unitNotes);
 			unit.set("building", $scope.building);
 			unit.set("property", $scope.property);
+			unit.set("getmessages", true);
 
 			unit.save(null, {
 			  success: function(unit) {

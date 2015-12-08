@@ -78,3 +78,7 @@
 .input-group {
 	padding: .5em;
 }
+
+.btn-fullwidth{
+	width: 100%;
+}

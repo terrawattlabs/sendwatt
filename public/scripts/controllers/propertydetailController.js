@@ -80,5 +80,32 @@ sendwattApp.controller('PropertyDetailCtrl',
 			});
    		};
 
+   		$scope.showForm = function () {
+   			$scope.formOpen = !$scope.formOpen;
+   		};
+
+
+   			$scope.newBuilding = function (){
+
+   			var Buildings = Parse.Object.extend("Buildings");
+			var building = new Buildings();
+
+			building.set("Number", $scope.buildingNumber);
+			building.set("Notes", $scope.buildingNotes);
+			building.set("property", $scope.property);
+
+			building.save(null, {
+			  success: function(building) {
+			    // Execute any logic that should take place after the object is saved.
+			    $scope.pullBuildings($scope.property);
+			    $scope.showForm();
+			  },
+			  error: function(property, error) {
+			    // Execute any logic that should take place if the save fails.
+			    // error is a Parse.Error with an error code and message.
+			    console.log('Failed to create new object, with error code: ' + error.message);
+			  }
+			});
+   		};
 
    	}]);

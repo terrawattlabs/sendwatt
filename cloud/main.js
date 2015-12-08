@@ -281,11 +281,13 @@ queryNeg.find().then(function (negtips) {
             console.log('in the success block');
             console.log(reading);
 
-            var daily = (reading[0].get('per_day_consumption')).toFixed(2);
-            var monthly = (reading[0].get('per_month_consumption')).toFixed(0);
-            var multiple = reading[0].get('multiple_from_prev');
+            // var daily = (reading[0].get('per_day_consumption')).toFixed(2);
+            // var monthly = (reading[0].get('per_month_consumption')).toFixed(0);
+            // var multiple = reading[0].get('multiple_from_prev');
 
-
+            var daily = 8;
+            var monthly = 240;
+            var multiple = 1.2;
 
             var percentage = getPercentage(multiple);
             var percHelper = getHelper(multiple, spanish);

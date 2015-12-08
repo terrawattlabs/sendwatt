@@ -1,17 +1,16 @@
-
-
-
 <div class="container">
-
     <div class="row">
     	<div class="col-md-4">
-    		<li ng-repeat="unit in unitList"><a ng-click="select($index)">{{unit.get('name')}}</a><span class="badge">{{ unit.unreadLength }}</span></li>
+            <button class="btn btn-primary btn-fullwidth" ng-click="sendMassMessage()">Send Mass Message</button>
+            <ul class="">
+    		  <li ng-repeat="unit in unitList"><input ng-show="sendMass" type="checkbox" ng-model="rList.selected[$index]" ng-change="updateList()"><button ng-disabled="sendMass" ng-click="select($index)" class="btn btn-default"> {{unit.get('name')}} <span class="badge">{{ unit.unreadLength }}</span></button></li>
+            </ul>
     	</div>
     
         <div class="col-md-5">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <span class="glyphicon glyphicon-comment"></span> {{selectedUnit.get('name')}}
+                    <span class="glyphicon glyphicon-comment"></span> {{chatTitle}}
                 </div>
                 <div class="panel-body" scroll-glue>
                     <ul class="chat">
@@ -38,8 +37,10 @@
                                 Send</button>
                         </span>
                     </div>
+                    Message length - {{newMessage.length}}
                 </div>
             </div>
+            
         </div>
     </div>
 </div>

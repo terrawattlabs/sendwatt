@@ -6,25 +6,35 @@ sendwattApp.controller('MessagesCtrl',
    	function ($scope, $timeout, $routeParams, $location, $window) {
 
    		var z = jstz.determine();
-    	var clientZone = z.name();
-
+    	   var clientZone = z.name();
+         $scope.chatTitle;
    		$scope.selectedUnit;
 
-   		$scope.sendMessage = function(){
-   			var Messages = Parse.Object.extend("Messages");
+         $scope.sendMessage = function (){
+            if ($scope.sendMass == true) {
+               for (var i = 0 ; i <= $scope.readyList.length - 1; i++) {
+                  saveAndSend($scope.newMessage, $scope.readyList[i], $scope.readyList[i].get('phone'));
+               };
+            } else {
+               saveAndSend($scope.newMessage, $scope.selectedUnit, $scope.selectedUnit.get('phone'));
+            };
+         };
+
+
+   		function saveAndSend (b, u, p){
+   		var Messages = Parse.Object.extend("Messages");
 			var message = new Messages();
 
-			message.set("body", $scope.newMessage);
+			message.set("body", b);
 			message.set("type", "outgoing");
 			message.set("unread", false);
-			message.set("unit", $scope.selectedUnit.id);
+			message.set("unit", u.id);
 
 			message.save(null, {
 			  success: function(gameScore) {
-			  sendSMS($scope.newMessage, $scope.selectedUnit.get('phone'));
+			  sendSMS(b, p);
 			   $scope.newMessage = "";
 			   $scope.pullMessages();
-
 
 			  },
 			  error: function(gameScore, error) {
@@ -59,6 +69,7 @@ $scope.unitList;
 			    $scope.unitList = results;
 
 			    $scope.selectedUnit = $scope.unitList[0];
+             $scope.chatTitle = $scope.selectedUnit.get('name');
 			    checkUnread(results);
 			    //startTimer();
 			    $scope.$apply();
@@ -76,12 +87,13 @@ $scope.unitList;
    		$scope.select = function (i) {
    			console.log('got to the function' + i);
    			$scope.selectedUnit = $scope.unitList[i];
+            $scope.chatTitle = $scope.unitList[i].get('name');
    			$scope.pullMessages();
    		};
 
    		$scope.pullMessages = function (){
    			var selectID = $scope.selectedUnit.id;
-   			console.log(selectID);
+   			//console.log(selectID);
 
    		var Messages = Parse.Object.extend("Messages");
 			var query = new Parse.Query(Messages);
@@ -173,7 +185,7 @@ $scope.unitList;
    			//console.log(i);
    		$scope.unitList[i].unreadLength = d;
    		} if (v == 'time') {
-   			console.log('time - ' + i);
+   			//console.log('time - ' + i);
    			//console.log($scope.unitList[i]);
    			$scope.messages[i].friendlyTime = d;
    		} if (v == 'url') {
@@ -185,7 +197,7 @@ $scope.unitList;
 
    	function processDates(msgs) {
    		for (var i = 0; i <= msgs.length - 1; i++) {
-   			console.log(i);
+   			//console.log(i);
    			var friendly = moment(msgs[i].createdAt).fromNow();
    			addToList(i,friendly, 'time');
    		};
@@ -208,5 +220,32 @@ $scope.unitList;
          };
       };
 
+      $scope.sendMass = false;
+
+      $scope.sendMassMessage = function (){
+         $scope.sendMass = !$scope.sendMass;
+         $scope.messages = "";
+         $scope.selectedUnit = "";
+         $scope.chatTitle = "Mass Message";
+         console.log($scope.sendMass); 
+      };
+
+      $scope.readyList = [];
+
+      $scope.updateList = function (){
+         $scope.readyList = [];
+         console.log('changed');
+         for (var i = 0; i <= $scope.rList.selected.length - 1; i++) {
+            if ($scope.rList.selected[i] == true) {
+               console.log('found something to be true');
+               $scope.readyList.push($scope.unitList[i]);
+            };
+         };
+      };
+
+
+      $scope.rList = {
+    selected:[]
+      };
 
    	}]);
