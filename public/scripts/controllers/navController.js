@@ -19,6 +19,9 @@ sendwattApp.controller('NavCtrl',
 
     	};
 
+      $scope.isActive = function (viewLocation) {
+          return viewLocation === $location.path();
+      };
     	
 
     	$scope.goToPage = function(path){

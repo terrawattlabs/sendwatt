@@ -60,7 +60,8 @@ app.post('/api/incomingsms', function (request, response) {
                    "b" : msgbody,
                    "from" : msgfrom,
                    "d": "incoming",
-                   "unit": results[0].id
+                   "unit": results[0].id,
+                   "unread": true
                 }, {
                   success: function(result) {
                     response.send(200);
@@ -110,6 +111,7 @@ Parse.Cloud.define("postMsg", function (request, response) {
   			var unread = false;
   			var unit = request.params.unit;
         var d = request.params.d;
+        var r = request.params.unread;
 
 
       var Messages = Parse.Object.extend("Messages");
@@ -117,7 +119,7 @@ Parse.Cloud.define("postMsg", function (request, response) {
 
 			message.set("body", b);
 			message.set("type", d);
-			message.set("unread", true);
+			message.set("unread", r);
 			message.set("unit", unit);
 
 			message.save(null, {
@@ -292,7 +294,7 @@ queryNeg.find().then(function (negtips) {
 
               sendMessage(sendTo, body);
 
-            postMessage(body, "outgoing", u.id);
+            postMessage(body, "outgoing", u.id, false);
       
           },
           error: function(object, error) {
@@ -397,12 +399,13 @@ function sendMessage(to, body) {
 };
 
 
-  function postMessage (body, d, u){
+  function postMessage (body, d, u, r){
     Parse.Cloud.run('postMsg', {
                    "b" : body,
                    "from" : '+17204109010',
                    "d": d,
-                   "unit": u
+                   "unit": u,
+                   "unread" : r
                 }, {
                   success: function(result) {
                     response.send(200);
