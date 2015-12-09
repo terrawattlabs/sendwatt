@@ -51,7 +51,7 @@ sendwattApp.controller('UnitDetailCtrl',
 
 			
 			$scope.processedReadings = [];
-			kwhCost = 0.10;
+			kwhCost = 2.55 / 1000;
 
 			var MeterRead = Parse.Object.extend("Readings_Water");
 			var query = new Parse.Query(MeterRead);

@@ -227,7 +227,8 @@ sendwattApp.controller('BuildingsCtrl',
 	};
 
 	function calculateAndPush (obj, i) {
-		var daysSincePrevious = (obj.createdAt - prev_createdAt) / 1000 / 60 / 60 / 24;
+		// var daysSincePrevious = (obj.createdAt - prev_createdAt) / 1000 / 60 / 60 / 24;
+		var daysSincePrevious = 1;
 		console.log('time since previous is - ' + daysSincePrevious);
 
 
@@ -241,16 +242,16 @@ sendwattApp.controller('BuildingsCtrl',
 			var multiple_from_prev_form = parseFloat(multiple_from_prev.toFixed(4));
 
 
-			console.log(consumption_since_prev);
-			console.log(consumption_per_day);
-			console.log(consumption_per_month);
-			console.log(multiple_from_prev);
+			// console.log(consumption_since_prev);
+			// console.log(consumption_per_day);
+			// console.log(consumption_per_month);
+			// console.log(multiple_from_prev);
 
 			var id = obj.id;
 			var MeterRead;
 
 			if ($scope.unitofmeasure[i] == "elec") {
-			MeterRead = Parse.Object.extend("Readings_Elec");
+				MeterRead = Parse.Object.extend("Readings_Elec");
 			} if ($scope.unitofmeasure[i] == "water") {
 				MeterRead = Parse.Object.extend("Readings_Water");
 			} if ($scope.unitofmeasure[i] == "gas") {
