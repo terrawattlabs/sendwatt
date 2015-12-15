@@ -228,7 +228,14 @@ sendwattApp.controller('BuildingsCtrl',
 
 	function calculateAndPush (obj, i) {
 		// var daysSincePrevious = (obj.createdAt - prev_createdAt) / 1000 / 60 / 60 / 24;
-		var daysSincePrevious = 1;
+
+		var today = moment();
+		var prev = moment(prev_createdAt);
+		var dur = today - prev;
+
+		var daysSincePrevious = Math.round(moment.duration(dur).asDays());;
+
+		
 		console.log('time since previous is - ' + daysSincePrevious);
 
 
@@ -288,6 +295,8 @@ sendwattApp.controller('BuildingsCtrl',
 	};
 
 
+
+	
 
 
    	}]);
