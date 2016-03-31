@@ -47,7 +47,7 @@ app.post('/api/incomingsms', function (request, response) {
     //console.log(msgfrom);
     //console.log(msgbody);
 
-    var Units = Parse.Object.extend("Units");
+  var Units = Parse.Object.extend("Units");
 	var query = new Parse.Query(Units);
 	query.equalTo("phone", msgfrom);
 	query.find({
@@ -384,7 +384,19 @@ function compileMessage(n, d, m, p, h, t, s) {
 };
 
 function sendMessage(to, body) {
-  Parse.Cloud.run('outgoingSMS', {
+  // Parse.Cloud.run('outgoingSMS', {
+  //                 "sendTo" : to,
+  //                 "message": body
+  //               }, {
+  //                 success: function(result) {
+  //                   console.log(result);
+  //               },
+  //                 error: function(error) {
+  //                   //console.log(error);
+  //                 }
+  //               });
+
+  Parse.Cloud.run('frontAPP', {
                   "sendTo" : to,
                   "message": body
                 }, {
@@ -417,6 +429,74 @@ function sendMessage(to, body) {
   };
 
 
+
+Parse.Cloud.define("zapier", function (request, response) {
+        var url = "https://zapier.com/hooks/catch/3j15k4/"
+
+        var msg = "You have a new message on Sendwatt. Go check it.";
+
+
+
+         Parse.Cloud.httpRequest({
+          method: 'POST',
+          url: url,
+          body: {
+            message: msg
+          },
+          success: function(httpResponse) {
+          console.log(httpResponse.text);
+          response.success(httpResponse.text);
+          },
+          error: function(httpResponse) {
+          console.log(httpResponse.text);
+          console.error('Request failed with response code ' + httpResponse.status);
+          response.error('Request failed with response code ' + httpResponse.status);
+          }
+        });
+});
+
+
+Parse.Cloud.define("frontAPP", function (request, response) {
+
+        var msgBody = request.params.message;
+        var msgTo = request.params.sendTo;
+
+        var baseurl = "https://api2.frontapp.com/inboxes";
+
+        var APIKEY = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiY29tcGFueSIsImNvbXBhbnkiOiJzZW5kd2F0dCJ9.Fs4r5d4Ge0Bgpo7vlu0S2s8fbBZam_4rOkSkvQz819I";
+
+        var specificURL = "messages";
+        var inboxID = "inb_n6j"
+
+
+         Parse.Cloud.httpRequest({
+          method: 'POST',
+          url: baseurl + "/" + inboxID + "/" + specificURL,
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": APIKEY
+          },
+          body: {
+            "author_id": "alt:email:hello@sendwatt.com",
+            "body": msgBody,
+            "recipients": [
+              {
+                "handle": msgTo,
+                "role": "to"
+              }
+            ]
+          },
+          success: function(httpResponse) {
+          console.log(httpResponse.text);
+          response.success(httpResponse.text);
+          },
+          error: function(httpResponse) {
+          console.log(httpResponse.text);
+          console.error('Request failed with response code ' + httpResponse.status);
+          response.error('Request failed with response code ' + httpResponse.status);
+          }
+        });
+});
 
 
 
